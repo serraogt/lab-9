@@ -1,0 +1,52 @@
+
+
+
+import mysql.connector
+
+database = mysql.connector.connect(
+    host="localhost",
+    user= "root",
+    passwd= "serra-pass"
+)
+cursorObject= database.cursor()
+cursorObject.execute("DROP DATABASE MyNewDatabase")
+
+cursorObject.execute("CREATE DATABASE MyNewDatabase")
+
+connection = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    database = 'MyNewDatabase',
+    passwd="kaan1234"
+)
+if connection.is_connected():
+    db_Info = connection.get_server_info()
+    print("You are connected to the MySQL server", db_Info)
+    cursor = connection.cursor()
+    cursor.execute("select database() ")
+    record = cursor.fetchone()
+    print("You are connected to the database", record)
+
+try:
+    connection = mysql.connector.connect(
+        host='localhost',
+        database='MyNewDatabase',
+        user='root',
+        password='serra-pass'
+    )
+    mySql_Create_Table_Query = """
+     CREATE TABLE Marvel(
+     ID int(10) NOT NULL,
+     MOVIE varchar(50) NOT NULL,
+     DATE varchar(10) NOT NULL,
+     MCUPHASE varchar(10))"""
+
+    cursor = connection.cursor()
+    result = cursor.execute(mySql_Create_Table_Query)
+    print("Students Table created successfully ")
+
+    cursor.execute("SHOW TABLES")
+    for table_name in cursor:
+        print(table_name)
+
+fileObject = open("Marvel.txt")
